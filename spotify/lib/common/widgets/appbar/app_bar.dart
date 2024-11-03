@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:spotify/common/helpers/is_dark_mode.dart';
-import 'package:spotify/presentation/auth/pages/signup_or_signin_page.dart';
 
 class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget ? title;
+  final Widget ? action;
   final bool hideBack;
-  const BasicAppBar({super.key, this. title, this.hideBack= false});
+  const BasicAppBar({super.key, this. title, this.hideBack= false, this.action});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +14,9 @@ class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: true,
       title: title ??  const Text(''),
+      actions: [
+        action ?? Container()
+      ],
       leading: hideBack? null: IconButton(
         onPressed: (){
           Navigator.pop(context);

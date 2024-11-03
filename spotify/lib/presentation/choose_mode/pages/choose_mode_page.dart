@@ -7,10 +7,8 @@ import 'package:spotify/common/widgets/button/basic_app_button.dart';
 import 'package:spotify/core/configs/assets/app_images.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
 import 'package:spotify/core/configs/theme/app_colors.dart';
-import 'package:spotify/main.dart';
 import 'package:spotify/presentation/auth/pages/signup_or_signin_page.dart';
 import 'package:spotify/presentation/choose_mode/bloc/theme_cubit.dart';
-import 'package:spotify/presentation/choose_mode/pages/choose_mode_page.dart';
 
 
 class ChooseModePage extends StatelessWidget {
@@ -143,4 +141,5 @@ class ChooseModePage extends StatelessWidget {
       ),
     );
   }
+
 }

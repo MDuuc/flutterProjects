@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:spotify/data/models/auth/create_user_req.dart';
 import 'package:spotify/data/models/auth/signin_user_req.dart';
 import 'package:spotify/data/sources/auth/auth_firebase_service.dart';

@@ -18,8 +18,7 @@ class SongRepositoryImpl extends SongsRepository {
 
   @override
   Future<Either> getPlayList() {
-    // TODO: implement getPlayList
-    throw UnimplementedError();
+    return sl<SongFirebaseService>().getPlayList();
   }
 
   @override
