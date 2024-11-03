@@ -29,9 +29,13 @@ class SongPlayer extends StatelessWidget {
           ),
       ),
       body: BlocProvider(
-        create: (_) => SongPlayerCubit()..loadSong(
-          '${AppUrls.firestorage} ${songEntity.title}-${songEntity.artist}.mp3? ${AppUrls.mediaAlt}'
-        ),
+create: (_) {
+    final title = songEntity.title.trim();
+  final artist = songEntity.artist.trim();
+  final url = '${AppUrls.songstorage}$title-$artist.mp3?${AppUrls.mediaAlt}';
+  print('Loading song from URL: $url'); // Hoặc sử dụng log(url) nếu muốn
+  return SongPlayerCubit()..loadSong(url);
+},
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8),
@@ -100,26 +104,68 @@ class SongPlayer extends StatelessWidget {
     );
   }
 
-  Widget _songPlayer(BuildContext context){
-    return BlocBuilder<SongPlayerCubit, SongPlayerState>(
-      builder: (context, state){
+  Widget _songPlayer(BuildContext context) {
+    return BlocBuilder<SongPlayerCubit,SongPlayerState>(
+      builder: (context, state) {
         if(state is SongPlayerLoading){
           return const CircularProgressIndicator();
-        }
-        if(state is SongPlayerLoaded ){
+        } 
+        if(state is SongPlayerLoaded) {
           return Column(
             children: [
               Slider(
                 value: context.read<SongPlayerCubit>().songPosition.inSeconds.toDouble(),
                 min: 0.0,
-                max: context.read<SongPlayerCubit>().songDuration.inSeconds.toDouble(),
-                onChanged: (value){},
+                max: context.read<SongPlayerCubit>().songDuration.inSeconds.toDouble() ,
+                onChanged: (value){}
+             ),
+             const SizedBox(height: 20,),
+             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  formatDuration(
+                    context.read<SongPlayerCubit>().songPosition
+                  )
+                ),
+
+                Text(
+                  formatDuration(
+                    context.read<SongPlayerCubit>().songDuration
+                  )
                 )
+              ],
+             ),
+             const SizedBox(height: 20,),
+
+             GestureDetector(
+              onTap: (){
+                context.read<SongPlayerCubit>().playOrPauseSong();
+              },
+               child: Container(
+                height: 60,
+                width: 60,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.primary
+                ),
+                child: Icon(
+                  context.read<SongPlayerCubit>().audioPlayer.playing ? Icons.pause : Icons.play_arrow
+                ),
+               ),
+             )
             ],
           );
         }
+
         return Container();
-      }
-      );
+      },
+    );
+  }
+
+  String formatDuration(Duration duration) {
+    final minutes = duration.inMinutes.remainder(60);
+    final seconds = duration.inSeconds.remainder(60);
+    return '${minutes.toString().padLeft(2,'0')}:${seconds.toString().padLeft(2,'0')}';
   }
 }
