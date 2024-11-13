@@ -7,6 +7,7 @@ import 'package:spotify/data/models/auth/signin_user_req.dart';
 abstract class AuthFirebaseService {
   Future<Either> signup( CreateUserReq create_user_req);
   Future<Either> signin(SigninUserReq signin_user_req);
+  Future<void> logout();
 }
 
 class AuthFirebaseServiceImp extends AuthFirebaseService{
@@ -55,6 +56,15 @@ class AuthFirebaseServiceImp extends AuthFirebaseService{
       return Left(
         message
       );
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      print("Something went wrong: ${e.toString()}");
     }
   }
 
